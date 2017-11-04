@@ -1,5 +1,7 @@
 package com.onyx.cryptocompare;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +13,9 @@ import java.util.Iterator;
  */
 
 public class JSONHandler {
+    private static final String TAG = JSONHandler.class.getSimpleName();
     public ExchangeItem[] formatJson (String jsonString) throws JSONException {
+
         JSONObject json = new JSONObject(jsonString);
         JSONObject btcJson = json.getJSONObject("BTC");
         JSONObject ethJson = json.getJSONObject("ETH");
@@ -23,6 +27,9 @@ public class JSONHandler {
         Iterator iterator = btcJson.keys();
         while (iterator.hasNext()){
             String currency = (String) iterator.next();
+            Log.d(TAG, currency);
+
+            items[index]= new ExchangeItem();
             items[index].setCurrency(currency);
             items[index].setBtcRate(btcJson.getDouble(currency));
             items[index].setEthRate(ethJson.getDouble(currency));
