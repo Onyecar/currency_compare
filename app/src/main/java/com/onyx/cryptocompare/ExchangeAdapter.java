@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.ExchangeAdapterViewHolder> {
     private ExchangeItem[] mCurrencyData;
-    public ExchangeAdapter(){}
-    public class ExchangeAdapterViewHolder extends RecyclerView.ViewHolder{
+    private final ExchangeAdapterOnClickHandler mClickHandler;
+    public class ExchangeAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView mCurrencyTextView;
         public final TextView mBtcRateTextView;
         public final TextView mEthRateTextView;
@@ -23,6 +23,13 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.Exchan
             mBtcRateTextView = (TextView)view.findViewById(R.id.tv_btc_value);
             mCurrencyTextView = (TextView)view.findViewById(R.id.tv_currency);
             mEthRateTextView = (TextView)view.findViewById(R.id.tv_eth_value);
+            view.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            ExchangeItem currentCurrency = mCurrencyData[adapterPosition];
+            mClickHandler.onClick(currentCurrency);
         }
     }
     @Override
@@ -47,8 +54,14 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.Exchan
         if (null == mCurrencyData) return 0;
         return mCurrencyData.length;
     }
+    public interface ExchangeAdapterOnClickHandler {
+        void onClick(ExchangeItem exchangeItem);
+    }
     public void setCurrencyData(ExchangeItem[] currencyData) {
         mCurrencyData = currencyData;
         notifyDataSetChanged();
+    }
+    public ExchangeAdapter(ExchangeAdapterOnClickHandler clickHandler) {
+        mClickHandler = clickHandler;
     }
 }

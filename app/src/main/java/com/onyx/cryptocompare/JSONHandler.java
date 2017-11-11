@@ -14,11 +14,14 @@ import java.util.Iterator;
 
 public class JSONHandler {
     private static final String TAG = JSONHandler.class.getSimpleName();
-    public ExchangeItem[] formatJson (String jsonString) throws JSONException {
+    public ExchangeItem[] formatJson (String excJsonString, String currJsonString) throws JSONException {
 
-        JSONObject json = new JSONObject(jsonString);
+        JSONObject json = new JSONObject(excJsonString);
         JSONObject btcJson = json.getJSONObject("BTC");
         JSONObject ethJson = json.getJSONObject("ETH");
+        JSONObject currJson = new JSONObject(currJsonString);
+        JSONObject currenciesJson = currJson.getJSONObject("currencies");
+
         int arrayLength = btcJson.length();
         ExchangeItem[] items = new ExchangeItem[arrayLength];
         String[] currencies = new String[arrayLength];
@@ -33,6 +36,7 @@ public class JSONHandler {
             items[index].setCurrency(currency);
             items[index].setBtcRate(btcJson.getDouble(currency));
             items[index].setEthRate(ethJson.getDouble(currency));
+            items[index].setCurrencyName(currenciesJson.getString(currency));
             index++;
         }
         return items;

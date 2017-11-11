@@ -6,6 +6,7 @@ package com.onyx.cryptocompare;
 
 public class ExchangeItem {
     private String currency;
+    private String currencyName;
     private double btcRate;
     private double ethRate;
 
@@ -31,5 +32,13 @@ public class ExchangeItem {
 
     public void setEthRate(double ethRate) {
         this.ethRate = ethRate;
+    }
+
+    public String getCurrencyName() {
+        return currencyName;
+    }
+
+    public void setCurrencyName(String currencyName) {
+        this.currencyName = currencyName;
     }
 }

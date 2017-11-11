@@ -19,9 +19,16 @@ public class NetworkUtils {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String BASE_URL = "https://min-api.cryptocompare.com/data/pricemulti";
+    private static final String CURR_BASE_URL = "http://apilayer.net/api/list";
+
 
     final static String CRYPTO_PARAM = "fsyms";
     final static String MONEY_PARAM = "tsyms";
+
+
+    final static String CURR_KEY_PARAM = "access_key";
+    final static String ACCESS_KEY = "af022626fcae88e367ea92d5fa69daae";
+     //Create account with https://currencylayer.com/ to get access key
 
     public static URL buildUrl() {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
@@ -32,6 +39,20 @@ public class NetworkUtils {
         URL url = null;
         try {
             url = new URL(URLDecoder.decode(builtUri.toString()));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+    public static URL buildCurNameUrl() {
+        Uri builtUri = Uri.parse(CURR_BASE_URL).buildUpon()
+                .appendQueryParameter(CURR_KEY_PARAM, ACCESS_KEY)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
